@@ -15,7 +15,7 @@ const conexion = mongoose.connection;
 conexion.once("open", function () {
     console.log(" 0) - Mongoose on fire");
 })
-//TODO: 
+
 // el middle ware es un sotware instermediario para la serializacion y 
 // deserializacion (parseo) automática
 
@@ -68,6 +68,19 @@ rutasAPI.route("/").get(function(reqPeticionHttp, resRespuestaHttp){ //enrutamos
      }
     });
     }) ;
+
+    rutasAPI.delete("/:id", (req, res) => {
+        let idUsuario = req.params.id;
+        console.log(idUsuario);
+        
+        Usuario.findByIdAndDelete(idUsuario, (err) => {
+        if(err){
+        console.log('ERRORRRRR!!!')
+        }else{
+        console.log('AAACIERTOOOO!!!')
+        }
+        })
+       })
 
 console.log(" 1.2) - El script principal ha terminado");
 

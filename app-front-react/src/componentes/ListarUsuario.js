@@ -6,9 +6,8 @@ class ListarUsuario extends /*React.*/ React.Component{
 
 constructor (props) {
         super (props); 
-    
-        this.onClick = this.onClick.bind(this);
 
+        this.onClick = this.onClickDelete.bind(this);
         
     }
 
@@ -28,20 +27,16 @@ constructor (props) {
     componentWillMount(){
     }
     
-    onClick (evt) {
-        evt.preventDefault(); 
-        //console.log(`datos: ${this.state.nombre}, ${this.state.email} , ${this.state.password}`);
-        window.fetch('http://127.0.0.1:4000/api/usuarios/', {
-            method:'delete',
-            body: JSON.stringify({
-                "nombre" : this.state.nombre,
-                "email" : this.state.email,
-                "password" : this.state.password,
+    onClickDelete (evt) {
+       evt.preventDefault(); 
+        let id = evt.target.dataset.id;
+        let nombre = evt.target.dataset.nombre;
 
-            }),
-            headers:{
-            'Content-Type': 'application/json'
-            }
+       //TODO: let usuarioDelete = 
+        alert ("¿Seguro que quieres borrar el usuario " + nombre + " ?");
+        //console.log(`datos: ${this.state.nombre}, ${this.state.email} , ${this.state.password}`);
+        window.fetch(`http://127.0.0.1:4000/api/usuarios/${id}`, {
+            method:'delete'
         }).then((res)=> alert("Usuario borrado") )
         .catch((vacas) => "A tomar por ..." );
     }
@@ -80,7 +75,10 @@ constructor (props) {
                             <td>{usu.email}</td>
                             <td>{usu.password}</td>
                             <td>
-                                <input type= "button" value= "Borrar" onClick = {this.onClick} />
+                                <input type= "button" data-id = {usu._id} data-nombre = {usu.nombre} value= "Borrar" onClick= {this.onClickDelete} />
+                            </td>
+                            <td>
+                                <input type= "button" value= "Modificar" onClick = {this.onClickModificar} />
                             </td>
                         </tr>
                     ))}
