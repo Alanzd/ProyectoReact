@@ -59,7 +59,7 @@ class CrearUsuario extends /*React.*/ Component{
 
         console.log(`datos: ${this.state.nombre}, ${this.state.email} , ${this.state.password}`);
         window.fetch('http://127.0.0.1:4000/api/usuarios/registro', {
-            method:'post',
+            method:'delete',
             body: JSON.stringify({
                 "nombre" : this.state.nombre,
                 "email" : this.state.email,

@@ -3,6 +3,15 @@ import React, {Component} from 'react';
 
 class ListarUsuario extends /*React.*/ React.Component{
 //equivalente al ngOnInit. El componente se ha montado
+
+constructor (props) {
+        super (props); 
+    
+        this.onClick = this.onClick.bind(this);
+
+        
+    }
+
     componentDidMount(){
      //cuando se renderice el componente se ejecutará lo de abajo 
         let promesaHTTP = window.fetch('http://127.0.0.1:4000/api/usuarios/');
@@ -17,6 +26,24 @@ class ListarUsuario extends /*React.*/ React.Component{
         }); 
     }
     componentWillMount(){
+    }
+    
+    onClick (evt) {
+        evt.preventDefault(); 
+        //console.log(`datos: ${this.state.nombre}, ${this.state.email} , ${this.state.password}`);
+        window.fetch('http://127.0.0.1:4000/api/usuarios/', {
+            method:'delete',
+            body: JSON.stringify({
+                "nombre" : this.state.nombre,
+                "email" : this.state.email,
+                "password" : this.state.password,
+
+            }),
+            headers:{
+            'Content-Type': 'application/json'
+            }
+        }).then((res)=> alert("Usuario borrado") )
+        .catch((vacas) => "A tomar por ..." );
     }
 
     render() {
@@ -43,18 +70,18 @@ class ListarUsuario extends /*React.*/ React.Component{
                     <th>Nombre</th>
                     <th>Email</th>
                     <th>Password</th>
-
                 </tr>
                     
                 </thead>
                 <tbody>
-                    { this.state
-                    .listarUsuarios
-                    .map(usu => (
+                    { this.state.listarUsuarios.map(usu => (
                         <tr key= {usu._id}>
                             <td>{usu.nombre}</td>
                             <td>{usu.email}</td>
                             <td>{usu.password}</td>
+                            <td>
+                                <input type= "button" value= "Borrar" onClick = {this.onClick} />
+                            </td>
                         </tr>
                     ))}
                     {//si metemos aqui {//filasTr} y lo comentado arriba tambien sale   
